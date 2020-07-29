@@ -1,0 +1,30 @@
+{
+  "name": "minidecaf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "## status ### 2020.07.28: - cy: step 11 finished.",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "build": "tsc",
+    "cli": "ts-node src/cli.ts",
+    "clean": "rm -rf dist/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decaf-lang/minidecaf.git"
+  },
+  "author": "eqution314 <equation618@gmail.com>",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/decaf-lang/minidecaf/issues"
+  },
+  "homepage": "https://github.com/decaf-lang/minidecaf",
+  "devDependencies": {
+    "ts-loader": "^8.0.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
