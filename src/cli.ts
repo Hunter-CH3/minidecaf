@@ -1,5 +1,6 @@
-function main() {
-    console.log("Hello world!");
-}
+import MiniDecaf = require("./minidecaf");
 
-main();
+let input = "233 + 666";
+let output = MiniDecaf.compile(input, {});
+
+console.log(output);

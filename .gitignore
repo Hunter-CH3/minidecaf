@@ -9,6 +9,6 @@ test/out
 *.S
 *.s
 a.out
-
+.vscode/
 node_modules/
 dist/
