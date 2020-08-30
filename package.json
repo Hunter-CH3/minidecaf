@@ -15,7 +15,10 @@
     "build-web-dev": "webpack --mode development --watch",
     "serve": "http-server -c-1 web/",
     "clean": "rm -rf web/dist/ build/",
-    "fmt": "prettier src/ --write"
+    "fmt": "prettier src/ --write",
+    "test": "npm run build && node build/src/cli.js test/test.c",
+    "test-codegen": "npm run build && test/run.sh test/test.c codegen",
+    "test-all": "test/test_all.sh"
   },
   "repository": {
     "type": "git",
@@ -35,5 +38,9 @@
     "typescript": "^3.9.7",
     "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "@types/node": "^14.0.27",
+    "commander": "^6.0.0"
   }
 }

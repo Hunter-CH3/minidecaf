@@ -11,14 +11,21 @@ var outputCM;
 function compileAndRun() {
   var input = codeCM.getValue();
   try {
-    var asm = MiniDecaf.compile(input, {});
+    var asm = MiniDecaf.compile(input, { target: "riscv32-asm" });
     asmCM.setValue(asm);
   } catch (err) {
     asmCM.setValue("");
     outputCM.setValue(err.message);
     return;
   }
-  outputCM.setValue("0");
+  setTimeout(() => {
+    try {
+      var output = MiniDecaf.compile(input, { target: "executed" });
+      outputCM.setValue(output);
+    } catch (err) {
+      outputCM.setValue(err.message);
+    }
+  }, 1);
 }
 
 $(document).ready(function () {
@@ -44,8 +51,8 @@ $(document).ready(function () {
 
   asmCM = CodeMirror(document.getElementById("minidecaf-asm"), {
     lineNumbers: true,
+    indentUnit: 4,
     styleActiveLine: true,
-    tabSize: 2,
     mode: { name: "gas", architecture: "riscv" },
     extraKeys,
   });
