@@ -13,6 +13,7 @@ npm install
 ### Run on Command Line
 
 ```sh
+npm run build
 npm run cli
 ```
 
@@ -21,7 +22,7 @@ npm run cli
 Build JavaScript files for browsers:
 
 ```sh
-npm run build
+npm run build-web
 ```
 
 Start a simple HTTP server:

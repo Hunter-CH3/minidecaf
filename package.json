@@ -8,9 +8,11 @@
   },
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "webpack --mode production",
-    "dev": "webpack --mode development --watch",
-    "cli": "ts-node src/cli.ts",
+    "build": "tsc",
+    "cli": "node build/src/cli.js",
+    "cli-dev": "ts-node src/cli.ts",
+    "build-web": "webpack --mode production",
+    "build-web-dev": "webpack --mode development --watch",
     "serve": "http-server -c-1 web/",
     "clean": "rm -rf web/dist/ build/",
     "fmt": "prettier src/ --write"
