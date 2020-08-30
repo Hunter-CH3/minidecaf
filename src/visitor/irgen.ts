@@ -22,8 +22,13 @@ export class IrGen extends AbstractParseTreeVisitor<void> implements MiniDecafVi
         this.ir.emitReturn();
     }
 
-    visitExpr(ctx: MiniDecafParser.ExprContext) {
+    visitIntExpr(ctx: MiniDecafParser.IntExprContext) {
         let int = parseInt(ctx.Integer().text);
         this.ir.emitImmediate(int);
+    }
+
+    visitUnaryExpr(ctx: MiniDecafParser.UnaryExprContext) {
+        ctx.expr().accept(this);
+        this.ir.emitUnary(ctx.getChild(0).text);
     }
 }

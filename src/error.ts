@@ -7,3 +7,9 @@ export class SyntaxError extends Error {
         super(errorMessage(line, charPositionInLine, msg));
     }
 }
+
+export class OtherError extends Error {
+    constructor(msg: string) {
+        super(`OtherError: ${msg}`);
+    }
+}

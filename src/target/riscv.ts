@@ -1,4 +1,5 @@
 import { IrInstr, IrVisitor } from "../ir";
+import { OtherError } from "../error";
 
 /** IR 到 RV32 的代码生成器 */
 export class Riscv32CodeGen extends IrVisitor<string> {
@@ -19,6 +20,22 @@ export class Riscv32CodeGen extends IrVisitor<string> {
 
     visitImmediate(instr: IrInstr) {
         this.emitInstr(`li t0, ${instr.op}`);
+    }
+
+    visitUnary(instr: IrInstr) {
+        switch (instr.op) {
+            case "-":
+                this.emitInstr(`neg t0, t0`);
+                break;
+            case "~":
+                this.emitInstr(`not t0, t0`);
+                break;
+            case "!":
+                this.emitInstr(`seqz t0, t0`);
+                break;
+            default:
+                throw new OtherError(`unknown unary operator '${instr.op}'`);
+        }
     }
 
     visitReturn(_instr: IrInstr) {
