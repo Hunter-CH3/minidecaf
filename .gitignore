@@ -1,6 +1,7 @@
 Cargo.lock
 target
-test/out
+out/
+*.in
 *.bak
 *.old
 *~
@@ -11,4 +12,6 @@ test/out
 a.out
 .vscode/
 node_modules/
+build/
 dist/
+.DS_Store
