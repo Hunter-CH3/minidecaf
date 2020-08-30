@@ -31,3 +31,7 @@ npm run serve
 ```
 
 Visit http://127.0.0.1:8080 to preview.
+
+## Reference:
+
+- [nqcc](https://github.com/nlsandler/nqcc)
