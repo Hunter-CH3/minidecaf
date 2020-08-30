@@ -15,6 +15,25 @@ stmt
     ;
 
 expr
-    : Integer # IntExpr
-    | ('-' | '~' | '!') expr # UnaryExpr
+    : addExpr
+    ;
+
+addExpr
+    : mulExpr
+    | addExpr ('+' | '-') mulExpr
+    ;
+
+mulExpr
+    : factor
+    | mulExpr ('*' | '/' | '%') factor
+    ;
+
+factor
+    : Integer           # IntExpr
+    | '(' expr ')'      # NestedExpr
+    | unaryOp factor    # UnaryExpr
+    ;
+
+unaryOp
+    : '-' | '~' | '!'
     ;

@@ -8,6 +8,12 @@ export class SyntaxError extends Error {
     }
 }
 
+export class RuntimeError extends Error {
+    constructor(msg: string) {
+        super(`RuntimeError: ${msg}`);
+    }
+}
+
 export class OtherError extends Error {
     constructor(msg: string) {
         super(`OtherError: ${msg}`);
