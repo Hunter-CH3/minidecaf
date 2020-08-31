@@ -1,7 +1,7 @@
 import { ParserRuleContext } from "antlr4ts";
 import { AbstractParseTreeVisitor, TerminalNode } from "antlr4ts/tree";
-import { MiniDecafVisitor } from "../gen/MiniDecafVisitor";
 import MiniDecafParser = require("../gen/MiniDecafParser");
+import { MiniDecafVisitor } from "../gen/MiniDecafVisitor";
 import { Label, Ir } from "../ir";
 
 /** 语法树到 IR 的生成器 */
