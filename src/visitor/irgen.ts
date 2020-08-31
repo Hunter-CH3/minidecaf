@@ -10,21 +10,21 @@ export class IrGen extends AbstractParseTreeVisitor<void> implements MiniDecafVi
 
     defaultResult() {}
 
-    visitProgram(ctx: MiniDecafParser.ProgramContext) {
-        ctx.func().accept(this);
-    }
-
     visitFunc(ctx: MiniDecafParser.FuncContext) {
-        ctx.stmt().accept(this);
+        ctx.stmt().forEach((stmt) => stmt.accept(this));
     }
 
-    visitStmt(ctx: MiniDecafParser.StmtContext) {
+    visitDecl(ctx: MiniDecafParser.DeclContext) {
+        ctx.expr()?.accept(this);
+    }
+
+    visitReturnStmt(ctx: MiniDecafParser.ReturnStmtContext) {
         ctx.expr().accept(this);
         this.ir.emitReturn();
     }
 
-    visitExpr(ctx: MiniDecafParser.ExprContext) {
-        ctx.orExpr().accept(this);
+    visitAssignExpr(ctx: MiniDecafParser.AssignExprContext) {
+        ctx.expr().accept(this);
     }
 
     visitOrExpr(ctx: MiniDecafParser.OrExprContext) {
@@ -52,8 +52,11 @@ export class IrGen extends AbstractParseTreeVisitor<void> implements MiniDecafVi
     }
 
     visitIntExpr(ctx: MiniDecafParser.IntExprContext) {
-        let int = parseInt(ctx.Integer().text);
-        this.ir.emitImmediate(int);
+        this.ir.emitImmediate(ctx["integer"]);
+    }
+
+    visitIdentExpr(ctx: MiniDecafParser.IdentExprContext) {
+        let name = ctx.Ident().text;
     }
 
     visitUnaryExpr(ctx: MiniDecafParser.UnaryExprContext) {
