@@ -19,6 +19,7 @@ export enum CompilerTarget {
 
 export class CompilerOption {
     target: CompilerTarget;
+    timeoutSecond?: number;
 }
 
 /** 监听 ANTLR 的语法解析错误 */
@@ -79,7 +80,7 @@ export function compile(input: string | Ir, option: CompilerOption): string | Ir
         let codegen = new Riscv32CodeGen(ir); // 目标代码生成
         return codegen.visitAll();
     } else if (option.target === CompilerTarget.Executed) {
-        let executor = new IrExecutor(ir); // 直接执行中间代码
+        let executor = new IrExecutor(ir, option.timeoutSecond); // 直接执行中间代码
         return (executor.visitAll() & 0xff).toString(); // Shell 返回码只有 8 位
     }
 }
