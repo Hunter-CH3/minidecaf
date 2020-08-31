@@ -17,7 +17,7 @@ export class SemanticCheck extends AbstractParseTreeVisitor<void>
     defaultResult() {}
 
     visitFunc(ctx: MiniDecafParser.FuncContext) {
-        ctx.stmt().forEach((stmt) => stmt.accept(this));
+        ctx.blockItem().forEach((item) => item.accept(this));
         ctx["localVarSize"] = this.scope.localVarSize;
     }
 

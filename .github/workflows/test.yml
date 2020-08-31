@@ -38,7 +38,7 @@ jobs:
       - name: Test ${{ matrix.target }}
         run: |
           if [ ${{ matrix.target }} == "codegen" ]; then
-            npm run test-all -- -n 5 -s
+            npm run test-all -- -n 6 -s
           else
-            npm run test-all -- -n 5
+            npm run test-all -- -n 6
           fi
