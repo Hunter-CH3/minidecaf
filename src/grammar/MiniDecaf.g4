@@ -8,6 +8,7 @@ program
 
 type
     : Int
+    | type '*'
     ;
 
 paramList
@@ -91,5 +92,5 @@ factor
     ;
 
 unaryOp
-    : '-' | '~' | '!'
+    : '-' | '~' | '!' | '*' | '&'
     ;
