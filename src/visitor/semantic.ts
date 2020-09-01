@@ -285,7 +285,7 @@ export class SemanticCheck extends AbstractParseTreeVisitor<Result>
 
     visitAssignExpr(ctx: MiniDecafParser.AssignExprContext): Result {
         this.asReference = true;
-        let lv = ctx.factor().accept(this);
+        let lv = ctx.unary().accept(this);
         this.asReference = false;
         let rv = ctx.expr().accept(this);
         if (!lv["lvalue"]) {
@@ -385,9 +385,16 @@ export class SemanticCheck extends AbstractParseTreeVisitor<Result>
         return ctx;
     }
 
+    visitPostfixExpr(ctx: MiniDecafParser.PostfixExprContext): Result {
+        let p = ctx.postfix().accept(this);
+        ctx["ty"] = p["ty"];
+        ctx["lvalue"] = p["lvalue"];
+        return ctx;
+    }
+
     visitCastExpr(ctx: MiniDecafParser.CastExprContext): Result {
         let to = ctx.type().accept(this)["ty"] as Type;
-        let from = ctx.factor().accept(this)["ty"] as Type;
+        let from = ctx.unary().accept(this)["ty"] as Type;
         if (!from.canCast(to)) {
             throw new SemanticError(ctx.start, `cannot cast from '${from}' to '${to}'`);
         }
@@ -397,7 +404,7 @@ export class SemanticCheck extends AbstractParseTreeVisitor<Result>
 
     visitUnaryExpr(ctx: MiniDecafParser.UnaryExprContext): Result {
         let op = ctx.unaryOp();
-        let f = ctx.factor();
+        let f = ctx.unary();
         if (op.text == "&") {
             // 取地址
             this.asReference = true;
@@ -421,6 +428,13 @@ export class SemanticCheck extends AbstractParseTreeVisitor<Result>
             f.accept(this);
             ctx["ty"] = unaryOpType(op.start, f["ty"]);
         }
+        return ctx;
+    }
+
+    visitPrimaryExpr(ctx: MiniDecafParser.PrimaryExprContext): Result {
+        let p = ctx.primary().accept(this);
+        ctx["ty"] = p["ty"];
+        ctx["lvalue"] = p["lvalue"];
         return ctx;
     }
 

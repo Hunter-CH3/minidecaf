@@ -46,7 +46,7 @@ expr
     ;
 
 assignExpr
-    : factor '=' expr
+    : unary '=' expr
     ;
 
 condExpr
@@ -79,17 +79,25 @@ addExpr
     ;
 
 mulExpr
-    : factor
-    | mulExpr ('*' | '/' | '%') factor
+    : unary
+    | mulExpr ('*' | '/' | '%') unary
     ;
 
-factor
-    : Integer                           # IntExpr
-    | Ident                             # IdentExpr
-    | '(' expr ')'                      # NestedExpr
-    | '(' type ')' factor               # CastExpr
-    | unaryOp factor                    # UnaryExpr
+unary
+    : postfix               # PostfixExpr
+    | '(' type ')' unary    # CastExpr
+    | unaryOp unary         # UnaryExpr
+    ;
+
+postfix
+    : primary                           # PrimaryExpr
     | Ident '(' (expr (',' expr)*)? ')' # FuncCall
+    ;
+
+primary
+    : Integer       # IntExpr
+    | Ident         # IdentExpr
+    | '(' expr ')'  # NestedExpr
     ;
 
 unaryOp
