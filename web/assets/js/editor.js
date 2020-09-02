@@ -8,22 +8,41 @@ var codeCM;
 var asmCM;
 var outputCM;
 
+function setOutput(label, type, text) {
+  if (type == "error") {
+    label.textContent = "Error:";
+    label.setAttribute("class", "text-danger");
+  } else if (type == "running") {
+    label.textContent = "Running...";
+    label.setAttribute("class", "text-warning");
+  } else {
+    label.textContent = "Output:";
+    label.setAttribute("class", "text-success");
+  }
+  outputCM.setValue(text);
+  outputCM.addLineWidget(0, label, { above: true });
+}
+
 function compileAndRun() {
+  var label = document.getElementById('output-label');
+  label.setAttribute("style", "");
+  setOutput(label, "running", "");
+
   var input = codeCM.getValue();
   try {
     var asm = MiniDecaf.compile(input, { target: "riscv32-asm" });
     asmCM.setValue(asm);
   } catch (err) {
     asmCM.setValue("");
-    outputCM.setValue(err.message);
+    setOutput(label, "error", err.message);
     return;
   }
   setTimeout(() => {
     try {
       var output = MiniDecaf.compile(input, { target: "executed" });
-      outputCM.setValue(output);
+      setOutput(label, "output", output);
     } catch (err) {
-      outputCM.setValue(err.message);
+      setOutput(label, "error", err.message);
     }
   }, 1);
 }
@@ -59,6 +78,7 @@ $(document).ready(function () {
 
   outputCM = CodeMirror(document.getElementById("minidecaf-output"), {
     readOnly: true,
+    lineWrapping: true,
     mode: null,
   });
 
